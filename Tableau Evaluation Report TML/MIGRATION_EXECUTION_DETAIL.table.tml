@@ -1,0 +1,55 @@
+guid: 230d17e9-e55e-4883-8d85-3a976d5413df
+table:
+  name: MIGRATION_EXECUTION_DETAIL
+  db: TB_2_TS
+  schema: TTTM_RAW
+  db_table: MIGRATION_EXECUTION_DETAIL
+  connection:
+    name: TTTM_MAIN_CONNECTION
+  columns:
+  - name: EXEC_DETAIL_ID
+    db_column_name: EXEC_DETAIL_ID
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+    db_column_properties:
+      data_type: VARCHAR
+  - name: EXEC_ID
+    db_column_name: EXEC_ID
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+    db_column_properties:
+      data_type: VARCHAR
+  - name: TWB_FILE_ID
+    db_column_name: TWB_FILE_ID
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+    db_column_properties:
+      data_type: VARCHAR
+  - name: EXEC_STATUS
+    db_column_name: EXEC_STATUS
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+    db_column_properties:
+      data_type: VARCHAR
+  - name: EXEC_ERROR_DETAILS
+    db_column_name: EXEC_ERROR_DETAILS
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+    db_column_properties:
+      data_type: VARCHAR
+  joins_with:
+  - name: SYS_CONSTRAINT_a57d6c4a-cd81-4bd1-8de0-87bad9a37551
+    destination:
+      name: TWB_FILE
+    "on": "[MIGRATION_EXECUTION_DETAIL::TWB_FILE_ID] = [TWB_FILE::TWB_FILE_ID]"
+    type: INNER
+  - name: SYS_CONSTRAINT_d0c3b200-8680-467c-b97a-a862efcc0a71
+    destination:
+      name: MIGRATION_EXECUTION_HEADER
+    "on": "[MIGRATION_EXECUTION_DETAIL::EXEC_ID] = [MIGRATION_EXECUTION_HEADER::EXEC_ID]"
+    type: INNER

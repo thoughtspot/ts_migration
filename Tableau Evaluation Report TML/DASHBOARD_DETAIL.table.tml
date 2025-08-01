@@ -1,0 +1,76 @@
+guid: 019ef294-7bfa-4e1d-bddc-aae3ba6ffa21
+table:
+  name: DASHBOARD_DETAIL
+  db: TB_2_TS
+  schema: TTTM_RAW
+  db_table: DASHBOARD_DETAIL
+  connection:
+    name: TTTM_MAIN_CONNECTION
+  columns:
+  - name: DASHBOARD_DETAIL_ID
+    db_column_name: DASHBOARD_DETAIL_ID
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+    db_column_properties:
+      data_type: VARCHAR
+  - name: DASHBOARD_HEADER_ID
+    db_column_name: DASHBOARD_HEADER_ID
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+    db_column_properties:
+      data_type: VARCHAR
+  - name: WORKSHEET_HEADER_ID
+    db_column_name: WORKSHEET_HEADER_ID
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+    db_column_properties:
+      data_type: VARCHAR
+  - name: PROPERTY_TYPE
+    db_column_name: PROPERTY_TYPE
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+    db_column_properties:
+      data_type: VARCHAR
+  - name: PROPERTY_NAME
+    db_column_name: PROPERTY_NAME
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+    db_column_properties:
+      data_type: VARCHAR
+  - name: PROPERTY_VALUE
+    db_column_name: PROPERTY_VALUE
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+    db_column_properties:
+      data_type: VARCHAR
+  - name: TS_EQUIVALENT_HINT
+    db_column_name: TS_EQUIVALENT_HINT
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+    db_column_properties:
+      data_type: VARCHAR
+  - name: CONV_FEASIBILITY
+    db_column_name: CONV_FEASIBILITY
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+    db_column_properties:
+      data_type: VARCHAR
+  joins_with:
+  - name: SYS_CONSTRAINT_82dc2f32-ed14-4af7-bfe2-cbdaf39e9aa9
+    destination:
+      name: WORKSHEET_HEADER
+    "on": "[DASHBOARD_DETAIL::WORKSHEET_HEADER_ID] = [WORKSHEET_HEADER::WORKSHEET_HEADER_ID]"
+    type: INNER
+  - name: SYS_CONSTRAINT_8f959a76-be09-4d0a-b82b-e182e5988654
+    destination:
+      name: DASHBOARD_HEADER
+    "on": "[DASHBOARD_DETAIL::DASHBOARD_HEADER_ID] = [DASHBOARD_HEADER::DASHBOARD_HEADER_ID]"
+    type: INNER

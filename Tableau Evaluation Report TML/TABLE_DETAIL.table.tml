@@ -1,0 +1,64 @@
+guid: 67741336-b248-4db6-aec0-cb697ac42f30
+table:
+  name: TABLE_DETAIL
+  db: TB_2_TS
+  schema: TTTM_RAW
+  db_table: TABLE_DETAIL
+  connection:
+    name: TTTM_MAIN_CONNECTION
+  columns:
+  - name: TABLE_DETAIL_ID
+    db_column_name: TABLE_DETAIL_ID
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+    db_column_properties:
+      data_type: VARCHAR
+  - name: TABLE_HEADER_ID
+    db_column_name: TABLE_HEADER_ID
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+    db_column_properties:
+      data_type: VARCHAR
+  - name: COLUMN_NAME
+    db_column_name: COLUMN_NAME
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+    db_column_properties:
+      data_type: VARCHAR
+  - name: DATA_TYPE
+    db_column_name: DATA_TYPE
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+    db_column_properties:
+      data_type: VARCHAR
+  - name: TS_DATA_TYPE
+    db_column_name: TS_DATA_TYPE
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+    db_column_properties:
+      data_type: VARCHAR
+  - name: CONV_FEASIBILITY
+    db_column_name: CONV_FEASIBILITY
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+    db_column_properties:
+      data_type: VARCHAR
+  - name: MIGRATION_STATUS
+    db_column_name: MIGRATION_STATUS
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+    db_column_properties:
+      data_type: VARCHAR
+  joins_with:
+  - name: SYS_CONSTRAINT_77a65ba2-8451-4a3a-94b8-1a132e36f923
+    destination:
+      name: TABLE_HEADER
+    "on": "[TABLE_DETAIL::TABLE_HEADER_ID] = [TABLE_HEADER::TABLE_HEADER_ID]"
+    type: INNER

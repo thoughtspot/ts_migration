@@ -1,0 +1,467 @@
+guid: 903d916c-80ff-4a49-bdf0-15ccd4e94456
+model:
+  name: Tableau_Evaluation_MODEL
+  description: This model acts a source for Tableau Evaluation report which gives
+    us in detail effort insights on migration of tableau dashboards.
+  model_tables:
+  - name: MIGRATION_EXECUTION_HEADER
+    joins:
+    - with: TWB_FILE
+      'on': '[MIGRATION_EXECUTION_HEADER::EXEC_ID] = [TWB_FILE::EXEC_ID]'
+      type: RIGHT_OUTER
+      cardinality: MANY_TO_ONE
+  - name: TWB_FILE
+    joins:
+    - with: DATASOURCE_HEADER
+      'on': '[TWB_FILE::TWB_FILE_ID] = [DATASOURCE_HEADER::TWB_FILE_ID]'
+      type: RIGHT_OUTER
+      cardinality: ONE_TO_MANY
+  - name: DATASOURCE_HEADER
+  - name: DATASOURCE_DETAIL
+    joins:
+    - with: DATASOURCE_HEADER
+      referencing_join: SYS_CONSTRAINT_a8a7181f-a1ef-444b-8ae0-7e47ad6ad868
+  - name: WORKSHEET_HEADER
+    joins:
+    - with: DASHBOARD_DETAIL
+      'on': '[WORKSHEET_HEADER::WORKSHEET_HEADER_ID] = [DASHBOARD_DETAIL::WORKSHEET_HEADER_ID]'
+      type: RIGHT_OUTER
+      cardinality: ONE_TO_MANY
+  - name: WORKSHEET_DETAIL
+    joins:
+    - with: WORKSHEET_HEADER
+      referencing_join: SYS_CONSTRAINT_8260585d-33d8-4f8f-9063-d866bd8ad38b
+  - name: DASHBOARD_HEADER
+    joins:
+    - with: TWB_FILE
+      'on': '[DASHBOARD_HEADER::TWB_FILE_ID] = [TWB_FILE::TWB_FILE_ID]'
+      type: LEFT_OUTER
+      cardinality: MANY_TO_ONE
+  - name: DASHBOARD_DETAIL
+    joins:
+    - with: DASHBOARD_HEADER
+      referencing_join: SYS_CONSTRAINT_8f959a76-be09-4d0a-b82b-e182e5988654
+  - name: TABLE_HEADER
+    joins:
+    - with: TABLE_DETAIL
+      'on': '[TABLE_HEADER::TABLE_HEADER_ID] = [TABLE_DETAIL::TABLE_HEADER_ID]'
+      type: RIGHT_OUTER
+      cardinality: ONE_TO_MANY
+  - name: TABLE_DETAIL
+  - name: TABLE_OUTPUT_FILE
+    joins:
+    - with: TABLE_HEADER
+      'on': '[TABLE_OUTPUT_FILE::TABLE_HEADER_ID] = [TABLE_HEADER::TABLE_HEADER_ID]'
+      type: LEFT_OUTER
+      cardinality: MANY_TO_ONE
+  - name: DATASOURCE_TABLE_XREF
+    joins:
+    - with: DATASOURCE_HEADER
+      'on': '[DATASOURCE_TABLE_XREF::DATASOURCE_HEADER_ID] = [DATASOURCE_HEADER::DATASOURCE_HEADER_ID]'
+      type: LEFT_OUTER
+      cardinality: MANY_TO_ONE
+    - with: TABLE_HEADER
+      'on': '[DATASOURCE_TABLE_XREF::TABLE_HEADER_ID] = [TABLE_HEADER::TABLE_HEADER_ID]'
+      type: LEFT_OUTER
+      cardinality: MANY_TO_ONE
+  - name: DATASOURCE_COLUMN_XREF
+    joins:
+    - with: DATASOURCE_HEADER
+      'on': '[DATASOURCE_COLUMN_XREF::DATASOURCE_HEADER_ID] = [DATASOURCE_HEADER::DATASOURCE_HEADER_ID]'
+      type: LEFT_OUTER
+      cardinality: MANY_TO_ONE
+  - name: WORKSHEET_DATASOURCE_XREF
+    joins:
+    - with: DATASOURCE_HEADER
+      'on': '[WORKSHEET_DATASOURCE_XREF::DATASOURCE_HEADER_ID] = [DATASOURCE_HEADER::DATASOURCE_HEADER_ID]
+        AND [WORKSHEET_DATASOURCE_XREF::TWB_FILE_ID] = [DATASOURCE_HEADER::TWB_FILE_ID]'
+      type: LEFT_OUTER
+      cardinality: MANY_TO_ONE
+    - with: WORKSHEET_HEADER
+      'on': '[WORKSHEET_DATASOURCE_XREF::TWB_FILE_ID] = [WORKSHEET_HEADER::TWB_FILE_ID]
+        AND [WORKSHEET_DATASOURCE_XREF::WORKSHEET_HEADER_ID] = [WORKSHEET_HEADER::WORKSHEET_HEADER_ID]'
+      type: LEFT_OUTER
+      cardinality: MANY_TO_ONE
+  - name: STG_WORKSHEET_NOT_IN_DASHBOARD
+    joins:
+    - with: WORKSHEET_DATASOURCE_XREF
+      'on': '[STG_WORKSHEET_NOT_IN_DASHBOARD::WORKSHEET_HEADER_ID] = [WORKSHEET_DATASOURCE_XREF::WORKSHEET_HEADER_ID]'
+      type: RIGHT_OUTER
+      cardinality: ONE_TO_ONE
+  - name: STG_DATASOURCE_NOT_IN_WORKSHEET
+    joins:
+    - with: DATASOURCE_HEADER
+      'on': '[STG_DATASOURCE_NOT_IN_WORKSHEET::DATASOURCE_HEADER_ID] = [DATASOURCE_HEADER::DATASOURCE_HEADER_ID]'
+      type: RIGHT_OUTER
+      cardinality: ONE_TO_ONE
+  - name: STG_TABLES_CONNECTED_WITH_UNSUPPORTED_DATA_PLATFORM
+    joins:
+    - with: TABLE_HEADER
+      'on': '[STG_TABLES_CONNECTED_WITH_UNSUPPORTED_DATA_PLATFORM::TABLE_HEADER_ID]
+        = [TABLE_HEADER::TABLE_HEADER_ID]'
+      type: RIGHT_OUTER
+      cardinality: ONE_TO_ONE
+  - name: MIGRATION_EXECUTION_DETAIL
+    joins:
+    - with: TWB_FILE
+      'on': '[MIGRATION_EXECUTION_DETAIL::TWB_FILE_ID] = [TWB_FILE::TWB_FILE_ID] AND
+        [MIGRATION_EXECUTION_DETAIL::EXEC_ID] = [TWB_FILE::EXEC_ID]'
+      type: LEFT_OUTER
+      cardinality: MANY_TO_ONE
+  - name: WORKSHEET_HEADER
+    alias: (1) WORKSHEET_HEADER
+    joins:
+    - with: TWB_FILE
+      'on': '[WORKSHEET_HEADER::TWB_FILE_ID] = [TWB_FILE::TWB_FILE_ID]'
+      type: LEFT_OUTER
+      cardinality: ONE_TO_ONE
+    - with: WORKSHEET_DETAIL
+      'on': '[WORKSHEET_HEADER::WORKSHEET_HEADER_ID] = [WORKSHEET_DETAIL::WORKSHEET_HEADER_ID]'
+      type: RIGHT_OUTER
+      cardinality: ONE_TO_MANY
+  formulas:
+  - id: Dashboard- Replace null with ' '
+    name: Dashboard- Replace null with ' '
+    expr: ifnull ( [DASHBOARD_HEADER::DASHBOARD_NAME] , ' ' )
+  - id: Datasource-Replace null with blanks
+    name: Datasource-Replace null with blanks
+    expr: if ( [DATASOURCE_HEADER::DATASOURCE_NAME] = null ) then '  ' else [DATASOURCE_HEADER::DATASOURCE_NAME]
+  - id: Parameter formula
+    name: Parameter formula
+    expr: if ( [MIGRATION_EXECUTION_HEADER::EXEC_ID] = [Execution_ID] ) then 1 else
+      0
+  - id: Worksheet - Replace null with blanks
+    name: Worksheet - Replace null with blanks
+    expr: ifnull ( [WORKSHEET_DATASOURCE_XREF::WORKSHEET_NAME] , '  ' )
+  filters:
+  - column:
+    - Parameter formula
+    oper: in
+    values:
+    - '1'
+  columns:
+  - name: Exec End Time
+    column_id: MIGRATION_EXECUTION_HEADER::EXEC_END_TIME
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+  - name: Worksheet Header Id(Total)
+    column_id: (1) WORKSHEET_HEADER::WORKSHEET_HEADER_ID
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+  - name: Datasource-Replace null with blanks
+    formula_id: Datasource-Replace null with blanks
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+  - name: Dashboard- Replace null with ' '
+    formula_id: Dashboard- Replace null with ' '
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+  - name: Worksheet - Replace null with blanks
+    formula_id: Worksheet - Replace null with blanks
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+  - name: Parameter formula
+    formula_id: Parameter formula
+    properties:
+      column_type: MEASURE
+      aggregation: SUM
+      index_type: DONT_INDEX
+  - name: Type
+    column_id: TABLE_HEADER::TYPE
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+  - name: Exec Status
+    column_id: MIGRATION_EXECUTION_HEADER::EXEC_STATUS
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+  - name: Exec Error Details
+    column_id: MIGRATION_EXECUTION_DETAIL::EXEC_ERROR_DETAILS
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+  - name: Exec Detail Id
+    column_id: MIGRATION_EXECUTION_DETAIL::EXEC_DETAIL_ID
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+  - name: Table_output_file_Conversion In Ts
+    column_id: TABLE_OUTPUT_FILE::CONVERSION_IN_TS
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+  - name: Exec Id(Tables_connected_with_unsupported_data_platform)
+    column_id: STG_TABLES_CONNECTED_WITH_UNSUPPORTED_DATA_PLATFORM::EXEC_ID
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+  - name: Table Name(Tables_connected_with_unsupported_data_platform)
+    column_id: STG_TABLES_CONNECTED_WITH_UNSUPPORTED_DATA_PLATFORM::TABLE_NAME
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+  - name: Table Header Id(Tables_connected_with_unsupported_data_platform)
+    column_id: STG_TABLES_CONNECTED_WITH_UNSUPPORTED_DATA_PLATFORM::TABLE_HEADER_ID
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+  - name: Exec Id(Datasource_not_used_in_worksheet)
+    column_id: STG_DATASOURCE_NOT_IN_WORKSHEET::EXEC_ID
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+  - name: Datasource Header Id(Datasource_not_used_in_worksheet)
+    column_id: STG_DATASOURCE_NOT_IN_WORKSHEET::DATASOURCE_HEADER_ID
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+  - name: Exec Id(Worksheet_not_used_in_dashboard)
+    column_id: STG_WORKSHEET_NOT_IN_DASHBOARD::EXEC_ID
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+  - name: Twb File Id(Worksheet_not_used_in_dashboard)
+    column_id: STG_WORKSHEET_NOT_IN_DASHBOARD::TWB_FILE_ID
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+  - name: Worksheet Header Id(Worksheet_not_used_in_dashboard)
+    column_id: STG_WORKSHEET_NOT_IN_DASHBOARD::WORKSHEET_HEADER_ID
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+  - name: Dashboard_Conv Feasibility
+    column_id: DASHBOARD_DETAIL::CONV_FEASIBILITY
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+  - name: Dashboard_Ts Equivalent Hint
+    column_id: DASHBOARD_DETAIL::TS_EQUIVALENT_HINT
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+  - name: Worksheet_Conv Feasibility
+    column_id: WORKSHEET_DETAIL::CONV_FEASIBILITY
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+  - name: Worksheet_Ts Equivalent Hint
+    column_id: WORKSHEET_DETAIL::TS_EQUIVALENT_HINT
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+  - name: Datasource_Conv Feasibility
+    column_id: DATASOURCE_DETAIL::CONV_FEASIBILITY
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+  - name: Datasource_Migration Status
+    column_id: DATASOURCE_DETAIL::MIGRATION_STATUS
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+  - name: Datasource_Ts Equivalent Hint
+    column_id: DATASOURCE_DETAIL::TS_EQUIVALENT_HINT
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+  - name: Table_Conv Feasibility
+    column_id: TABLE_DETAIL::CONV_FEASIBILITY
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+  - name: Table_Ts Data Type
+    column_id: TABLE_DETAIL::TS_DATA_TYPE
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+  - name: Table_Migration Status
+    column_id: TABLE_DETAIL::MIGRATION_STATUS
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+  - name: Exec Mode
+    column_id: MIGRATION_EXECUTION_HEADER::EXEC_MODE
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+  - name: Exec Start Time
+    column_id: MIGRATION_EXECUTION_HEADER::EXEC_START_TIME
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+  - name: Twb File Name
+    column_id: TWB_FILE::TWB_FILE_NAME
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+  - name: Twb File Id
+    column_id: TWB_FILE::TWB_FILE_ID
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+  - name: Exec Id
+    column_id: TWB_FILE::EXEC_ID
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+  - name: Output File Name
+    column_id: DATASOURCE_HEADER::OUTPUT_FILE_NAME
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+  - name: Datasource Header Id
+    column_id: DATASOURCE_HEADER::DATASOURCE_HEADER_ID
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+  - name: Output File Type
+    column_id: DATASOURCE_HEADER::OUTPUT_FILE_TYPE
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+  - name: Datasource Name
+    column_id: DATASOURCE_HEADER::DATASOURCE_NAME
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+  - name: Datasource Property Value
+    column_id: DATASOURCE_DETAIL::PROPERTY_VALUE
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+  - name: Datasource Detail Id
+    column_id: DATASOURCE_DETAIL::DATASOURCE_DETAIL_ID
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+  - name: Datasource_Property_Type
+    column_id: DATASOURCE_DETAIL::PROPERTY_TYPE
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+  - name: Datasource_Property_Name
+    column_id: DATASOURCE_DETAIL::PROPERTY_NAME
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+  - name: Worksheet Name
+    column_id: WORKSHEET_HEADER::WORKSHEET_NAME
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+  - name: Worksheet Header Id
+    column_id: WORKSHEET_HEADER::WORKSHEET_HEADER_ID
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+  - name: Worksheet Detail Id
+    column_id: WORKSHEET_DETAIL::WORKSHEET_DETAIL_ID
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+  - name: Worksheet_Property_Type
+    column_id: WORKSHEET_DETAIL::PROPERTY_TYPE
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+  - name: Worksheet_Property_Value
+    column_id: WORKSHEET_DETAIL::PROPERTY_VALUE
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+  - name: Worksheet_Property_Name
+    column_id: WORKSHEET_DETAIL::PROPERTY_NAME
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+  - name: Dashboard Name
+    column_id: DASHBOARD_HEADER::DASHBOARD_NAME
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+  - name: Dashboard Header Id
+    column_id: DASHBOARD_HEADER::DASHBOARD_HEADER_ID
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+  - name: Dashboard_Property_Value
+    column_id: DASHBOARD_DETAIL::PROPERTY_VALUE
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+  - name: Dashboard_Property_Name
+    column_id: DASHBOARD_DETAIL::PROPERTY_NAME
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+  - name: Dashboard Detail Id
+    column_id: DASHBOARD_DETAIL::DASHBOARD_DETAIL_ID
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+  - name: Dashboard_Property_Type
+    column_id: DASHBOARD_DETAIL::PROPERTY_TYPE
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+  - name: Table Name
+    column_id: TABLE_HEADER::TABLE_NAME
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+  - name: Table Header Id
+    column_id: TABLE_HEADER::TABLE_HEADER_ID
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+  - name: Connection Tag
+    column_id: TABLE_HEADER::CONNECTION_TAG
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+  - name: Table Detail Id
+    column_id: TABLE_DETAIL::TABLE_DETAIL_ID
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+  - name: Column Name
+    column_id: TABLE_DETAIL::COLUMN_NAME
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+  - name: Data Type
+    column_id: TABLE_DETAIL::DATA_TYPE
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+  - name: Table Output File Id
+    column_id: TABLE_OUTPUT_FILE::TABLE_OUTPUT_FILE_ID
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+  - name: Table_Output_File_Type
+    column_id: TABLE_OUTPUT_FILE::OUTPUT_FILE_TYPE
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+  - name: Table_Output_File_Name
+    column_id: TABLE_OUTPUT_FILE::OUTPUT_FILE_NAME
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+  properties:
+    is_bypass_rls: false
+    join_progressive: true
+  parameters:
+  - id: 0bd2d87c-0a11-4c39-a391-30ab42474e7c
+    name: Execution_ID
+    data_type: CHAR
+    default_value: 937e51db8fdbba70c814c947322828ea
+    description: This execution id has been used as a parameter.

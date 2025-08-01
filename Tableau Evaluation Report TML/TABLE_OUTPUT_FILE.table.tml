@@ -1,0 +1,50 @@
+guid: 057ddd53-1671-463a-8b30-037860c14749
+table:
+  name: TABLE_OUTPUT_FILE
+  db: TB_2_TS
+  schema: TTTM_RAW
+  db_table: TABLE_OUTPUT_FILE
+  connection:
+    name: TTTM_MAIN_CONNECTION
+  columns:
+  - name: TABLE_OUTPUT_FILE_ID
+    db_column_name: TABLE_OUTPUT_FILE_ID
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+    db_column_properties:
+      data_type: VARCHAR
+  - name: TABLE_HEADER_ID
+    db_column_name: TABLE_HEADER_ID
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+    db_column_properties:
+      data_type: VARCHAR
+  - name: OUTPUT_FILE_TYPE
+    db_column_name: OUTPUT_FILE_TYPE
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+    db_column_properties:
+      data_type: VARCHAR
+  - name: OUTPUT_FILE_NAME
+    db_column_name: OUTPUT_FILE_NAME
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+    db_column_properties:
+      data_type: VARCHAR
+  - name: CONVERSION_IN_TS
+    db_column_name: CONVERSION_IN_TS
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+    db_column_properties:
+      data_type: VARCHAR
+  joins_with:
+  - name: SYS_CONSTRAINT_05d56d6c-165b-4900-948a-8c98cf9c4912
+    destination:
+      name: TABLE_HEADER
+    "on": "[TABLE_OUTPUT_FILE::TABLE_HEADER_ID] = [TABLE_HEADER::TABLE_HEADER_ID]"
+    type: INNER

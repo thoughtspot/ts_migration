@@ -1,0 +1,71 @@
+guid: d1ba5401-1196-43b2-adb8-0a71ced15528
+table:
+  name: DATASOURCE_DETAIL
+  db: TB_2_TS
+  schema: TTTM_RAW
+  db_table: DATASOURCE_DETAIL
+  connection:
+    name: TTTM_MAIN_CONNECTION
+  columns:
+  - name: DATASOURCE_DETAIL_ID
+    db_column_name: DATASOURCE_DETAIL_ID
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+    db_column_properties:
+      data_type: VARCHAR
+  - name: DATASOURCE_HEADER_ID
+    db_column_name: DATASOURCE_HEADER_ID
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+    db_column_properties:
+      data_type: VARCHAR
+  - name: PROPERTY_TYPE
+    db_column_name: PROPERTY_TYPE
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+    db_column_properties:
+      data_type: VARCHAR
+  - name: PROPERTY_NAME
+    db_column_name: PROPERTY_NAME
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+    db_column_properties:
+      data_type: VARCHAR
+  - name: PROPERTY_VALUE
+    db_column_name: PROPERTY_VALUE
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+    db_column_properties:
+      data_type: VARCHAR
+  - name: CONV_FEASIBILITY
+    db_column_name: CONV_FEASIBILITY
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+    db_column_properties:
+      data_type: VARCHAR
+  - name: TS_EQUIVALENT_HINT
+    db_column_name: TS_EQUIVALENT_HINT
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+    db_column_properties:
+      data_type: VARCHAR
+  - name: MIGRATION_STATUS
+    db_column_name: MIGRATION_STATUS
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+    db_column_properties:
+      data_type: VARCHAR
+  joins_with:
+  - name: SYS_CONSTRAINT_a8a7181f-a1ef-444b-8ae0-7e47ad6ad868
+    destination:
+      name: DATASOURCE_HEADER
+    "on": "[DATASOURCE_DETAIL::DATASOURCE_HEADER_ID] = [DATASOURCE_HEADER::DATASOURCE_HEADER_ID]"
+    type: INNER

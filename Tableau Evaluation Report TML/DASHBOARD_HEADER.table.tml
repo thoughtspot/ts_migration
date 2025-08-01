@@ -1,0 +1,48 @@
+guid: d0ec3391-08f2-47bf-9620-dd1082bf7660
+table:
+  name: DASHBOARD_HEADER
+  db: TB_2_TS
+  schema: TTTM_RAW
+  db_table: DASHBOARD_HEADER
+  connection:
+    name: TTTM_MAIN_CONNECTION
+  columns:
+  - name: DASHBOARD_HEADER_ID
+    db_column_name: DASHBOARD_HEADER_ID
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+    db_column_properties:
+      data_type: VARCHAR
+  - name: EXEC_ID
+    db_column_name: EXEC_ID
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+    db_column_properties:
+      data_type: VARCHAR
+  - name: TWB_FILE_ID
+    db_column_name: TWB_FILE_ID
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+    db_column_properties:
+      data_type: VARCHAR
+  - name: DASHBOARD_NAME
+    db_column_name: DASHBOARD_NAME
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+    db_column_properties:
+      data_type: VARCHAR
+  joins_with:
+  - name: SYS_CONSTRAINT_7132eb4c-dff6-4daa-abb6-b0ea786b895a
+    destination:
+      name: TWB_FILE
+    "on": "[DASHBOARD_HEADER::TWB_FILE_ID] = [TWB_FILE::TWB_FILE_ID]"
+    type: INNER
+  - name: SYS_CONSTRAINT_b22a5c15-f18c-44df-af71-210619bf921a
+    destination:
+      name: MIGRATION_EXECUTION_HEADER
+    "on": "[DASHBOARD_HEADER::EXEC_ID] = [MIGRATION_EXECUTION_HEADER::EXEC_ID]"
+    type: INNER

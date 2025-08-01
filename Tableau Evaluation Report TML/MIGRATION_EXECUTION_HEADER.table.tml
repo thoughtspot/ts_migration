@@ -1,0 +1,58 @@
+guid: 6209ef50-64d5-41d3-876a-ddd7fdd1b846
+table:
+  name: MIGRATION_EXECUTION_HEADER
+  db: TB_2_TS
+  schema: TTTM_RAW
+  db_table: MIGRATION_EXECUTION_HEADER
+  connection:
+    name: TTTM_MAIN_CONNECTION
+  columns:
+  - name: EXEC_ID
+    db_column_name: EXEC_ID
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+    db_column_properties:
+      data_type: VARCHAR
+  - name: EXEC_MODE
+    db_column_name: EXEC_MODE
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+    db_column_properties:
+      data_type: VARCHAR
+  - name: EXEC_START_TIME
+    db_column_name: EXEC_START_TIME
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+    db_column_properties:
+      data_type: DATE_TIME
+  - name: EXEC_END_TIME
+    db_column_name: EXEC_END_TIME
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+    db_column_properties:
+      data_type: DATE_TIME
+  - name: EXEC_STATUS
+    db_column_name: EXEC_STATUS
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+    db_column_properties:
+      data_type: VARCHAR
+  - name: TWB_FILE_NAME
+    db_column_name: TWB_FILE_NAME
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+    db_column_properties:
+      data_type: VARCHAR
+  - name: EXEC_ERROR_DETAILS
+    db_column_name: EXEC_ERROR_DETAILS
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+    db_column_properties:
+      data_type: VARCHAR

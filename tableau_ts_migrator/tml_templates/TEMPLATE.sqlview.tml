@@ -1,0 +1,13 @@
+guid:
+sql_view:
+  name:
+  connection:
+    name: 
+  sql_query: 
+  sql_view_columns:
+  - name: 
+    sql_output_column: 
+    properties:
+      column_type: 
+      aggregation:
+      index_type:

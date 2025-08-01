@@ -1,0 +1,41 @@
+guid: 91ca7d0d-c63d-4280-a53f-4366607dfa44
+table:
+  name: DATASOURCE_TABLE_XREF
+  db: TB_2_TS
+  schema: TTTM_RAW
+  db_table: DATASOURCE_TABLE_XREF
+  connection:
+    name: TTTM_MAIN_CONNECTION
+  columns:
+  - name: DATASOURCE_TABLE_XREF_ID
+    db_column_name: DATASOURCE_TABLE_XREF_ID
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+    db_column_properties:
+      data_type: VARCHAR
+  - name: DATASOURCE_HEADER_ID
+    db_column_name: DATASOURCE_HEADER_ID
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+    db_column_properties:
+      data_type: VARCHAR
+  - name: TABLE_HEADER_ID
+    db_column_name: TABLE_HEADER_ID
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+    db_column_properties:
+      data_type: VARCHAR
+  joins_with:
+  - name: SYS_CONSTRAINT_40239727-2c2e-468a-af5e-8028075e6777
+    destination:
+      name: TABLE_HEADER
+    "on": "[DATASOURCE_TABLE_XREF::TABLE_HEADER_ID] = [TABLE_HEADER::TABLE_HEADER_ID]"
+    type: INNER
+  - name: SYS_CONSTRAINT_84906014-e635-413f-b38d-dd7237385a35
+    destination:
+      name: DATASOURCE_HEADER
+    "on": "[DATASOURCE_TABLE_XREF::DATASOURCE_HEADER_ID] = [DATASOURCE_HEADER::DATASOURCE_HEADER_ID]"
+    type: INNER

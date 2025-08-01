@@ -1,0 +1,30 @@
+guid: 81a318ea-1c11-4b11-afb8-bb42a539f55f
+table:
+  name: STG_WORKSHEET_NOT_IN_DASHBOARD
+  db: TB_2_TS
+  schema: TTTM_RAW
+  db_table: STG_WORKSHEET_NOT_IN_DASHBOARD
+  connection:
+    name: TTTM_MAIN_CONNECTION
+  columns:
+  - name: WORKSHEET_HEADER_ID
+    db_column_name: WORKSHEET_HEADER_ID
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+    db_column_properties:
+      data_type: VARCHAR
+  - name: TWB_FILE_ID
+    db_column_name: TWB_FILE_ID
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+    db_column_properties:
+      data_type: VARCHAR
+  - name: EXEC_ID
+    db_column_name: EXEC_ID
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+    db_column_properties:
+      data_type: VARCHAR

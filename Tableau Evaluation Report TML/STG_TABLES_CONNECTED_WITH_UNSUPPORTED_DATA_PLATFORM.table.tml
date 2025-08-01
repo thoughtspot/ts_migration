@@ -1,0 +1,65 @@
+guid: 449950e5-d332-4505-bf14-4e876c18a82a
+table:
+  name: STG_TABLES_CONNECTED_WITH_UNSUPPORTED_DATA_PLATFORM
+  db: TB_2_TS
+  schema: TTTM_RAW
+  db_table: STG_TABLES_CONNECTED_WITH_UNSUPPORTED_DATA_PLATFORM
+  connection:
+    name: TTTM_MAIN_CONNECTION
+  columns:
+  - name: DATASOURCE_HEADER_ID
+    db_column_name: DATASOURCE_HEADER_ID
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+    db_column_properties:
+      data_type: VARCHAR
+  - name: TABLE_HEADER_ID
+    db_column_name: TABLE_HEADER_ID
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+    db_column_properties:
+      data_type: VARCHAR
+  - name: EXEC_ID
+    db_column_name: EXEC_ID
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+    db_column_properties:
+      data_type: VARCHAR
+  - name: TABLE_NAME
+    db_column_name: TABLE_NAME
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+    db_column_properties:
+      data_type: VARCHAR
+  - name: CLASS_VALUE
+    db_column_name: CLASS_VALUE
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+    db_column_properties:
+      data_type: VARCHAR
+  - name: PROPERTY_NAME
+    db_column_name: PROPERTY_NAME
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+    db_column_properties:
+      data_type: VARCHAR
+  - name: PROPERTY_VALUE
+    db_column_name: PROPERTY_VALUE
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+    db_column_properties:
+      data_type: VARCHAR
+  - name: CONV_FEASIBILITY
+    db_column_name: CONV_FEASIBILITY
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+    db_column_properties:
+      data_type: VARCHAR

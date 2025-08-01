@@ -1,0 +1,48 @@
+guid: cbf1e6d0-308b-4d8c-ac07-5a0998da77ad
+table:
+  name: WORKSHEET_HEADER
+  db: TB_2_TS
+  schema: TTTM_RAW
+  db_table: WORKSHEET_HEADER
+  connection:
+    name: TTTM_MAIN_CONNECTION
+  columns:
+  - name: WORKSHEET_HEADER_ID
+    db_column_name: WORKSHEET_HEADER_ID
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+    db_column_properties:
+      data_type: VARCHAR
+  - name: EXEC_ID
+    db_column_name: EXEC_ID
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+    db_column_properties:
+      data_type: VARCHAR
+  - name: TWB_FILE_ID
+    db_column_name: TWB_FILE_ID
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+    db_column_properties:
+      data_type: VARCHAR
+  - name: WORKSHEET_NAME
+    db_column_name: WORKSHEET_NAME
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+    db_column_properties:
+      data_type: VARCHAR
+  joins_with:
+  - name: SYS_CONSTRAINT_bd36bdf9-0e14-40b9-8db5-3d9bd75be676
+    destination:
+      name: MIGRATION_EXECUTION_HEADER
+    "on": "[WORKSHEET_HEADER::EXEC_ID] = [MIGRATION_EXECUTION_HEADER::EXEC_ID]"
+    type: INNER
+  - name: SYS_CONSTRAINT_fd535c8a-31df-4e8f-996e-0f6050457aa7
+    destination:
+      name: TWB_FILE
+    "on": "[WORKSHEET_HEADER::TWB_FILE_ID] = [TWB_FILE::TWB_FILE_ID]"
+    type: INNER

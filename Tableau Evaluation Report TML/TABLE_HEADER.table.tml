@@ -1,0 +1,50 @@
+guid: 96bd4be8-2b83-4bbb-bf1d-9cdac42c50bf
+table:
+  name: TABLE_HEADER
+  db: TB_2_TS
+  schema: TTTM_RAW
+  db_table: TABLE_HEADER
+  connection:
+    name: TTTM_MAIN_CONNECTION
+  columns:
+  - name: TABLE_HEADER_ID
+    db_column_name: TABLE_HEADER_ID
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+    db_column_properties:
+      data_type: VARCHAR
+  - name: EXEC_ID
+    db_column_name: EXEC_ID
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+    db_column_properties:
+      data_type: VARCHAR
+  - name: TABLE_NAME
+    db_column_name: TABLE_NAME
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+    db_column_properties:
+      data_type: VARCHAR
+  - name: CONNECTION_TAG
+    db_column_name: CONNECTION_TAG
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+    db_column_properties:
+      data_type: VARCHAR
+  - name: TYPE
+    db_column_name: TYPE
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+    db_column_properties:
+      data_type: VARCHAR
+  joins_with:
+  - name: SYS_CONSTRAINT_da83629b-891d-4ba8-aebd-af080cbf148c
+    destination:
+      name: MIGRATION_EXECUTION_HEADER
+    "on": "[TABLE_HEADER::EXEC_ID] = [MIGRATION_EXECUTION_HEADER::EXEC_ID]"
+    type: INNER
