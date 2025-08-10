@@ -30,7 +30,7 @@ jobs:
   call-sync-workflow:
     # Only run this job when the PR was merged, not just closed, OR when manually triggered, OR via repository_dispatch
     if: github.event.pull_request.merged == true || github.event_name == 'workflow_dispatch' || github.event_name == 'repository_dispatch'
-    uses: thoughtspot/workflows/.github/workflows/sync-to-public-mirror.yml@SCAL-259676
+    uses: thoughtspot/workflows/.github/workflows/sync-to-public-mirror.yml@main
     with:
       # CRITICAL FIX: Only force sync when explicitly requested, not on every PR
       force_sync: ${{ github.event.inputs.force_sync == true || (github.event_name == 'repository_dispatch' && github.event.client_payload.force_sync == true) }}

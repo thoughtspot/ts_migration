@@ -10,9 +10,8 @@ on:
 
 jobs:
   sonar:
-    uses: thoughtspot/workflows/.github/workflows/sonar-scan.yml@SCAL-259676
+    uses: thoughtspot/workflows/.github/workflows/sonar-scan.yml@main
     secrets:
       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
       SONAR_PROJECTKEY: ${{ secrets.SONAR_PROJECTKEY }}
-
