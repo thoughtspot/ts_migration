@@ -1,0 +1,17 @@
+tableau_class,function,pattern-text,ui-enumeration,supported in MODE,supported in TS,supported in Extract Migrator,supported in Live Migrator,datasource filter hint,chart filter hint
+categorical,general,,inclusive,Full,Full,Full,Full,Use “INCLUDE” filter,Use “INCLUDE” filter
+categorical,general,,exclusive,Full,Full,Full,Full,Use “EXCLUDE” filter,Use “EXCLUDE” filter
+categorical,wildcard,contains,inclusive,Full,NoSup,Full,NoSup,,
+categorical,wildcard,contains,exclusive,Full,NoSup,Full,NoSup,,
+categorical,wildcard,starts-with,inclusive,Full,Full,Full,Full,"Create a formula “left ( [TABLE_NAME::COLUMN_NAME] , STRING_LENGTH )” and apply “INCLUDE” filter ","Create a formula “left ( [TABLE_NAME::COLUMN_NAME] , STRING_LENGTH )” and apply “INCLUDE” filter "
+categorical,wildcard,starts-with,exclusive,Full,Full,Full,Full,"Create a formula “left ( [TABLE_NAME::COLUMN_NAME] , STRING_LENGTH )” and apply “EXCLUDE” filter","Create a formula “left ( [TABLE_NAME::COLUMN_NAME] , STRING_LENGTH )” and apply “EXCLUDE” filter"
+categorical,wildcard,ends-with,inclusive,Full,Full,Full,Full,"Create a formula “right ( [TABLE_NAME::COLUMN_NAME] , STRING_LENGTH )” and apply “INCLUDE” filter","Create a formula “right ( [TABLE_NAME::COLUMN_NAME] , STRING_LENGTH )” and apply “INCLUDE” filter"
+categorical,wildcard,ends-with,exclusive,Full,Full,Full,Full,"Create a formula “right ( [TABLE_NAME::COLUMN_NAME] , STRING_LENGTH )” and apply “EXCLUDE” filter","Create a formula “right ( [TABLE_NAME::COLUMN_NAME] , STRING_LENGTH )” and apply “EXCLUDE” filter"
+categorical,wildcard,exact-match,inclusive,Full,Full,Full,Full,Use “INCLUDE” filter,Use “INCLUDE” filter
+categorical,wildcard,exact-match,exclusive,Full,Full,Full,Full,Use “EXCLUDE” filter,Use “EXCLUDE” filter
+categorical,condition,,,Full,NoSup,Full,NoSup,,
+categorical,top,,,Full,NoSup,Full,NoSup,,
+quantitative,atleast,,,Full,Full,Full,Full,Use Greater than (>),Use Greater than (>)
+quantitative,atmost,,,Full,Full,Full,Full,Use Less than(<),Use Less than(<)
+quantitative,between,,,Full,Full,Full,Full,Use between,Use between
+relative-date,relative-date,,,Full,NoSup,NoSup,NoSup,,

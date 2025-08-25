@@ -1,0 +1,7 @@
+aggregation,column_name,join_column_name
+yr,year,YEAR({table_name}.{column_name})
+mn,month,MONTH({table_name}.{column_name})
+qr,quarter,QUARTER({table_name}.{column_name})
+wk,week,WEEK({table_name}.{column_name})
+dy,day,DAY({table_name}.{column_name})
+wd,dayofweek,DAYOFWEEK({table_name}.{column_name})

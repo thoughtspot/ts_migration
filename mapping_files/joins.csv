@@ -1,0 +1,5 @@
+Tableau Join,TS Join,Supported by Thoughtspot,Supported in mode,supported by TS migrator
+inner,INNER,Full,Full,Full
+left,LEFT_OUTER,Full,Full,Full
+right,RIGHT_OUTER,Full,Full,Full
+full,OUTER,Full,Full,Full

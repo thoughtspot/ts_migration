@@ -72,9 +72,6 @@
 # Ignore node modules
 **/node_modules/
 
-# Ignore all .csv
-*.csv
-
 # python specific files
 .venv
 **/__pycache__

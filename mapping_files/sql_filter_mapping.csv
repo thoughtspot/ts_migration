@@ -1,0 +1,77 @@
+class,include-null,function,end,user:ui-enumeration,user:ui-pattern_type,user:ui-pattern-filter-empty,user:ui-pattern-include-all-when-empty,aggregation,identifier,query-template
+categorical,TRUE,general,,exclusive,,,,,EXCLUDE,{table}.{column} NOT IN {member} AND {table}.{column} IS NOT NULL
+categorical,TRUE,general,,inclusive,,,,,INCLUDE,{table}.{column} IN {member} OR {table}.{column} IS NULL
+categorical,FALSE,general,,exclusive,,, ,,EXCLUDE,{table}.{column} NOT IN {member}
+categorical,FALSE,general,,inclusive,,,,,INCLUDE,{table}.{column} IN {member}
+categorical,,intersection,,,,TRUE,FALSE,,EXCLUDE_ALL,SELECT {column} FROM {table} WHERE {column} NOT LIKE '%'
+categorical,,intersection,,,,TRUE,TRUE,,INCLUDE_ALL,SELECT {column} FROM {table} WHERE {column} NOT LIKE '%'
+categorical,,wildcard,,inclusive,contains,,,,CONTAINS,SELECT {column} FROM {table} WHERE {column} LIKE '%{pattern_text}%'
+categorical,,wildcard,,inclusive,starts-with,,,,STARTS_WITH,SELECT {column} FROM {table} WHERE {column} LIKE '{pattern_text}%'
+categorical,,wildcard,,inclusive,ends-with,,,,ENDS_WITH,SELECT {column} FROM {table} WHERE {column} LIKE '%{pattern_text}'
+categorical,,wildcard,,inclusive,exact-match,,,,EXACT_MATCH,SELECT {column} FROM {table} WHERE {column} LIKE '{pattern_text}'
+categorical,,wildcard,,exclusive,contains,,,,NOT_CONTAINS,SELECT {column} FROM {table} WHERE {column} NOT LIKE '%{pattern_text}%'
+categorical,,wildcard,,exclusive,starts-with,,,,NOT_STARTS_WITH,SELECT {column} FROM {table} WHERE {column} NOT LIKE '{pattern_text}%'
+categorical,,wildcard,,exclusive,ends-with,,,,NOT_ENDS_WITH,SELECT {column} FROM {table} WHERE {column} NOT LIKE '%{pattern_text}'
+categorical,,wildcard,,exclusive,exact-match,,,,NOT_EXACT_MATCH,SELECT {column} FROM {table} WHERE {column} NOT LIKE '{pattern_text}'
+categorical,,top,top,,,,,,TOP_N,SELECT {column} FROM {table} GROUP BY {column} ORDER BY {expression} DESC LIMIT {count} 
+categorical,,top,bottom,,,,,,BOTTOM_N,SELECT {column} FROM {table} GROUP BY {column} ORDER BY {expression} ASC LIMIT {count}
+categorical,,condition,,,,,,,C_CONDITION,SELECT {column} FROM {table} GROUP BY {column} HAVING {expression}
+quantitative,,atleast,,,,,,,RANGE,{column} > {min}
+quantitative,,atmost,,,,,,,RANGE,{column} < {max}
+quantitative,,between,,,,,,,RANGE,{column} BETWEEN {min} AND {max}
+categorical,TRUE,general,,exclusive,,,,yr,EXCLUDE,YEAR({table}.{column}) NOT IN {member} AND YEAR({table}.{column}) IS NOT NULL
+categorical,TRUE,general,,inclusive,,,,yr,INCLUDE,YEAR({table}.{column}) IN {member} OR YEAR({table}.{column}) IS NULL
+categorical,FALSE,general,,exclusive,,,,yr,EXCLUDE,YEAR({table}.{column}) NOT IN {member}
+categorical,FALSE,general,,inclusive,,,,yr,INCLUDE,YEAR({table}.{column}) IN {member}
+categorical,TRUE,general,,exclusive,,,,mn,EXCLUDE,MONTH({table}.{column}) NOT IN {member} AND YEAR({table}.{column}) IS NOT NULL
+categorical,TRUE,general,,inclusive,,,,mn,INCLUDE,MONTH({table}.{column}) IN {member} OR MONTH({table}.{column}) IS NULL
+categorical,FALSE,general,,exclusive,,,,mn,EXCLUDE,MONTH({table}.{column}) NOT IN {member}
+categorical,FALSE,general,,inclusive,,,,mn,INCLUDE,MONTH({table}.{column}) IN {member}
+categorical,TRUE,general,,exclusive,,,,wk,EXCLUDE,WEEK({table}.{column}) NOT IN {member} AND WEEK({table}.{column}) IS NOT NULL
+categorical,TRUE,general,,inclusive,,,,wk,INCLUDE,WEEK({table}.{column}) IN {member} OR WEEK({table}.{column}) IS NULL
+categorical,FALSE,general,,exclusive,,,,wk,EXCLUDE,WEEK({table}.{column}) NOT IN {member}
+categorical,FALSE,general,,inclusive,,,,wk,INCLUDE,WEEK({table}.{column}) IN {member}
+categorical,TRUE,general,,exclusive,,,,dy,EXCLUDE,DAY({table}.{column}) NOT IN {member} AND DAY({table}.{column}) IS NOT NULL
+categorical,TRUE,general,,inclusive,,,,dy,INCLUDE,DAY({table}.{column}) IN {member} OR DAY({table}.{column}) IS NULL
+categorical,FALSE,general,,exclusive,,,,dy,EXCLUDE,DAY({table}.{column}) NOT IN {member}
+categorical,FALSE,general,,inclusive,,,,dy,INCLUDE,DAY({table}.{column}) IN {member}
+categorical,TRUE,general,,exclusive,,,,qr,EXCLUDE,QUARTER({table}.{column}) NOT IN {member} AND QUARTER({table}.{column}) IS NOT NULL
+categorical,TRUE,general,,inclusive,,,,qr,INCLUDE,QUARTER({table}.{column}) IN {member} OR QUARTER({table}.{column}) IS NULL
+categorical,FALSE,general,,exclusive,,,,qr,EXCLUDE,QUARTER({table}.{column}) NOT IN {member}
+categorical,FALSE,general,,inclusive,,,,qr,INCLUDE,QUARTER({table}.{column}) IN {member}
+categorical,TRUE,general,,exclusive,,,,wd,EXCLUDE,DAYOFWEEK({table}.{column}) NOT IN {member} AND DAYOFWEEK({table}.{column}) IS NOT NULL
+categorical,TRUE,general,,inclusive,,,,wd,INCLUDE,DAYOFWEEK({table}.{column}) IN {member} OR DAYOFWEEK({table}.{column}) IS NULL
+categorical,FALSE,general,,exclusive,,,,wd,EXCLUDE,DAYOFWEEK({table}.{column}) NOT IN {member}
+categorical,FALSE,general,,inclusive,,,,wd,INCLUDE,DAYOFWEEK({table}.{column}) IN {member}
+categorical,TRUE,general,,exclusive,,,,my,EXCLUDE,"(YEAR({table}.{column}), MONTH({table}.{column})) NOT IN {member} AND (YEAR({table}.{column}), MONTH({table}.{column}))  IS NOT NULL"
+categorical,TRUE,general,,inclusive,,,,my,INCLUDE,"(YEAR({table}.{column}), MONTH({table}.{column})) IN {member} OR (YEAR({table}.{column}), MONTH({table}.{column}))  IS NULL"
+categorical,FALSE,general,,exclusive,,,,my,EXCLUDE,"(YEAR({table}.{column}), MONTH({table}.{column})) NOT IN {member}"
+categorical,FALSE,general,,inclusive,,,,my,INCLUDE,"(YEAR({table}.{column}), MONTH({table}.{column})) IN {member}"
+categorical,TRUE,general,,exclusive,,,,md,EXCLUDE,"(YEAR({table}.{column}), MONTH({table}.{column}), DAY({table}.{column}))  NOT IN {member} AND (YEAR({table}.{column}), MONTH({table}.{column}), DAY({table}.{column})) IS NOT NULL"
+categorical,TRUE,general,,inclusive,,,,md,INCLUDE,"(YEAR({table}.{column}), MONTH({table}.{column}), DAY({table}.{column})) IN {member} OR (YEAR({table}.{column}), MONTH({table}.{column}), DAY({table}.{column})) IS NULL"
+categorical,FALSE,general,,exclusive,,,,md,EXCLUDE,"(YEAR({table}.{column}), MONTH({table}.{column}), DAY({table}.{column})) NOT IN {member}"
+categorical,FALSE,general,,inclusive,,,,md,INCLUDE,"(YEAR({table}.{column}), MONTH({table}.{column}), DAY({table}.{column})) IN {member}"
+categorical,,top,top,,,,,yr,TOP_N,SELECT YEAR({column}) as year FROM {table} GROUP BY YEAR({column}) ORDER BY {expression} DESC LIMIT {count}
+categorical,,top,bottom,,,,,yr,BOTTOM_N,SELECT YEAR({column}) as year FROM {table} GROUP BY YEAR({column}) ORDER BY {expression} ASC LIMIT {count}
+categorical,,top,top,,,,,mn,TOP_N,SELECT MONTH({column}) as month FROM {table} GROUP BY MONTH({column}) ORDER BY {expression} DESC LIMIT {count}
+categorical,,top,bottom,,,,,mn,BOTTOM_N,SELECT MONTH({column}) as month FROM {table} GROUP BY MONTH({column}) ORDER BY {expression} ASC LIMIT {count}
+categorical,,top,top,,,,,qr,TOP_N,SELECT QUARTER({column}) as quarter FROM {table} GROUP BY QUARTER({column}) ORDER BY {expression} DESC LIMIT {count}
+categorical,,top,bottom,,,,,qr,BOTTOM_N,SELECT QUARTER({column}) as quarter FROM {table} GROUP BY QUARTER({column}) ORDER BY {expression} ASC LIMIT {count}
+categorical,,top,top,,,,,wk,TOP_N,SELECT WEEK({column}) as week FROM {table} GROUP BY WEEK({column}) ORDER BY {expression} DESC LIMIT {count}
+categorical,,top,bottom,,,,,wk,BOTTOM_N,SELECT WEEK({column}) as week FROM {table} GROUP BY WEEK({column}) ORDER BY {expression} ASC LIMIT {count}
+categorical,,top,top,,,,,dy,TOP_N,SELECT DAY({column}) as day FROM {table} GROUP BY DAY({column}) ORDER BY {expression} DESC LIMIT {count}
+categorical,,top,bottom,,,,,dy,BOTTOM_N,SELECT DAY({column}) as day FROM {table} GROUP BY DAY({column}) ORDER BY {expression} ASC LIMIT {count}
+categorical,,top,top,,,,,wd,TOP_N,SELECT DAYOFWEEK({column}) as dayofweek FROM {table} GROUP BY DAYOFWEEK({column}) ORDER BY {expression} DESC LIMIT {count}
+categorical,,top,bottom,,,,,wd,BOTTOM_N,SELECT DAYOFWEEK({column}) as dayofweek FROM {table} GROUP BY DAYOFWEEK({column}) ORDER BY {expression} ASC LIMIT {count}
+categorical,,top,top,,,,,my,TOP_N,"SELECT YEAR({column}) as year, MONTH({column}) as month FROM {table} GROUP BY (YEAR({column}), MONTH({column})) ORDER BY {expression} DESC LIMIT {count}"
+categorical,,top,bottom,,,,,my,BOTTOM_N,"SELECT YEAR({column}) as year, MONTH({column}) as month FROM {table} GROUP BY (YEAR({column}), MONTH({column})) ORDER BY {expression} ASC LIMIT {count}"
+categorical,,top,top,,,,,md,TOP_N,"SELECT YEAR({column}) as year, MONTH({column}) as month, DAY({column}) as day FROM {table} GROUP BY (YEAR({column}), MONTH({column}), DAY({column}))  ORDER BY {expression} DESC LIMIT {count}"
+categorical,,top,bottom,,,,,md,BOTTOM_N,"SELECT YEAR({column}) as year, MONTH({column}) as month, DAY({column}) as day FROM {table} GROUP BY (YEAR({column}), MONTH({column}), DAY({column}))  ORDER BY {expression} ASC LIMIT {count}"
+categorical,,condition,,,,,,yr,C_CONDITION,SELECT YEAR({column}) as year FROM {table} GROUP BY YEAR({column}) HAVING {expression}
+categorical,,condition,,,,,,mn,C_CONDITION,SELECT MONTH({column}) as month FROM {table} GROUP BY MONTH({column}) HAVING {expression}
+categorical,,condition,,,,,,qr,C_CONDITION,SELECT QUARTER({column}) as quarter FROM {table} GROUP BY QUARTER({column}) HAVING {expression}
+categorical,,condition,,,,,,wk,C_CONDITION,SELECT WEEK({column}) as week FROM {table} GROUP BY WEEK({column}) HAVING {expression}
+categorical,,condition,,,,,,dy,C_CONDITION,SELECT DAY({column}) as day FROM {table} GROUP BY DAY({column}) HAVING {expression}
+categorical,,condition,,,,,,wd,C_CONDITION,SELECT DAYOFWEEK({column}) as dayofweek FROM {table} GROUP BY DAYOFWEEK({column}) HAVING {expression}
+categorical,,condition,,,,,,my,C_CONDITION,"SELECT YEAR({column}) as year, MONTH({column}) as month FROM {table} GROUP BY (YEAR({column}), MONTH({column}))  HAVING {expression}"
+categorical,,condition,,,,,,md,C_CONDITION,"SELECT YEAR({column}) as year, MONTH({column}) as month, DAY({column}) as day FROM {table} GROUP BY (YEAR({column}), MONTH({column}), DAY({column})) HAVING {expression}"

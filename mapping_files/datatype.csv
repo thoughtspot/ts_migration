@@ -1,0 +1,11 @@
+Datatype,Tableau Data Type,TS Data Type,Tableau Role,TS Column Type,TS Aggregation Type,TS Geo Config,Mode Data Type,supported by TS,supported by Migrator
+Decimal,real,DOUBLE,measure,MEASURE,SUM,,Float,Full,
+Number,integer,INT64,measure,MEASURE,SUM,,Integer,Full,
+Text,string,VARCHAR,dimension,ATTRIBUTE,COUNT,,String,Full,
+Date,date,DATE,dimension,ATTRIBUTE,COUNT,,Date_time,Full,
+True/False,boolean,BOOL,dimension,ATTRIBUTE,COUNT,,Boolean,Full,
+Date Time,datetime,DATE_TIME,dimension,ATTRIBUTE,COUNT,,Date_time,Full,
+Latitude,real,VARCHAR,dimension,ATTRIBUTE,COUNT,Latitude,String/Float,Full,
+Longitude,real,VARCHAR,dimension,ATTRIBUTE,COUNT,Longitude,String/Float,Full,
+State,string,VARCHAR,dimension,ATTRIBUTE,COUNT,State,String,Full,
+Zip Code,string,VARCHAR,dimension,ATTRIBUTE,COUNT,Zip Code,String,Full,

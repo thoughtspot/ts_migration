@@ -1,0 +1,28 @@
+Type,tableau chart property,Condition,Supported by Thoughtspot,TS chart property,Proceed with checks
+axis,Missing one axis,Yes,NoSup,Value for only row/column available. Can be represented as table or single value KPI,Stop
+axis,Attribute or date field in both axis,Yes,NoSup,At least one measure and attribute or date field required to plot chart. Can be represented as table,Stop
+axis,Measure field in both axis,Yes,NoSup,At least one measure and attribute or date field required to plot chart. Can be represented as table,Stop
+mark,Text,,NoSup,No equivalent chart type supported.,Stop
+mark,Gantt Bar,,NoSup,No equivalent chart type supported.,Stop
+mark,Polygon,,NoSup,No equivalent chart type supported.,Stop
+axis,latitude,Yes,Partial,Use geo charts to represent the data.,Continue
+axis,longitude,Yes,Partial,Use geo charts to represent the data.,Continue
+mark,Automatic,,Default,No suggestion as mark type is not known.,Continue
+encoding,color,Yes,Full,Include color field in search and slice with color using this field.,Continue
+encoding,Text,Yes,Partial,Enable lable in the chart settings.,Continue
+encoding,tooltip,Yes,Full,Enable tooltip in the chart settings.,Continue
+encoding,size,Yes,NoSup,Size feature is not supported.,Continue
+encoding,lod,Yes,NoSup,lod feature is not supported.,Continue
+encoding,angle,Yes,NoSup,Angle feature is not supported.,Continue
+encoding,path,Yes,NoSup,Path feature is not supported.,Continue
+encoding,shape,Yes,NoSup,Shape feature is not supported.,Continue
+encoding,geometry,Yes,NoSup,Geometry feature is not supported.,Continue
+mark,Bar,,Full,Use bar or column chart.,Continue
+mark,Line,,Full,Use line chart.,Continue
+mark,Area,,Full,Use area chart.,Continue
+mark,Square,,NoSup,Use scatter chart instead.,Continue
+mark,Circle,,Partial,Use scatter chart.,Continue
+mark,Shape,,Full,Use scatter chart.,Continue
+mark,Map,,Full,Use geo area map,Continue
+mark,Pie,,Partial,Use donut chart instead,Continue
+mark,Density,,Partial,Use heatmap instead,Continue

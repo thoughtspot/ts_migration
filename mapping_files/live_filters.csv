@@ -1,0 +1,13 @@
+class_value,included_values,function_type,ui_enumeration,ui_pattern_type,identifier,operation,condition
+categorical,,general,inclusive,,INCLUDE,{level} in {member},in
+categorical,,general,exclusive,,EXCLUDE,{level} not in {member},not in
+quantitative,in-range,atleast,,,min,> {min_value},>
+quantitative,in-range,atmost,,,max,< {max_value},<
+quantitative,in-range,between,,,min&max,between{range_value},between
+quantitative,non-null,,,,EXCLUDE,not in {null},not in
+categorical,,wildcard,exclusive,ends-with,NOT(ENDSWITH,{level} not in {formula_value},not in
+categorical,,wildcard,inclusive,ends-with,ENDSWITH,{level} in {formula_value},in
+categorical,,wildcard,inclusive,starts-with,STARTSWITH,{level} in {formula_value},in
+categorical,,wildcard,exclusive,starts-with,NOT(STARTSWITH,{level} not in {formula_value},not in
+categorical,,wildcard,exclusive,exact-match,NOT(,{level} not in {formula_value},not in
+categorical,,wildcard,inclusive,exact-match,,{level}={formula_value},in
