@@ -50,4 +50,3 @@ jobs:
       merge_commit_sha: ${{ github.event.pull_request.merge_commit_sha || github.event.client_payload.commit_sha || github.sha }}
     secrets:
       SSH_DEPLOY_KEY: ${{ secrets.SSH_DEPLOY_KEY }}
-
