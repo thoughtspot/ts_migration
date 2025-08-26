@@ -51,7 +51,6 @@
 
 # Ignore logs and databases
 **/*.log
-**/*.sql
 **/*.sqlite
 
 # Ignore OS generated files
