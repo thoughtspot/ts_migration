@@ -85,3 +85,5 @@ class DataIngress:
         self.call_stored_procedure(session, "Header_table", exec_id)
         self.call_stored_procedure(session, "Detail_table", exec_id)
         self.call_stored_procedure(session, "View_Model", exec_id)
+        self.call_stored_procedure(session, "POPULATE_WORKSHEET_HEADER2",exec_id)
+        

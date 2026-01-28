@@ -35,7 +35,8 @@ def run_job(input_folder, output_folder, live_flag, operation, configs=None):
             data_ingest.DataIngress().write_dump_data(final_dump)
             data_ingest.DataIngress().call_procedures(value)
             logger.info("Conversion completed")
-        url = f"https://embed-1-do-not-delete.thoughtspotstaging.cloud/?param1=Execution_ID&paramVal1={value}&#/pinboard/c215130d-a735-421f-bda6-dac81abd7044"
+        url = f"https://ps-internal.thoughtspot.cloud/?param1=Execution_ID&paramVal1={value}&#/pinboard/caf7e1f5-823a-41ce-9462-bfbd07bd7903"
+
         logger.info(f"Please check the feasibility report at {url}")
             
         # Define the output file path

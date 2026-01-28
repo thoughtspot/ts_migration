@@ -43,6 +43,9 @@ The tool includes an ETL pipeline that processes Tableau metadata and, while Sno
 - **Output**: 
   - **Live connections**: TML files (tables, models, SQL views)
   - **Extract connections**: SQL files + Model TMLs
+- **SQL Proxy Support**: Generation of Table.tml files from SQL Proxy as a Datasource
+  - **Note**: It is a “Tableau Server‑hosted published datasource proxy”, a logical wrapper that hides the real database objects and joins from the workbook XML.
+
 
 ### ❌ Currently Unsupported
 
@@ -99,6 +102,52 @@ The migration tool follows a three-tier architecture:
    SNOWFLAKE_SCHEMA=your_schema
    SNOWFLAKE_ROLE=your_role
    ```
+5. **Database Setup**
+   Before running the migration tool, you must create the necessary schema in Snowflake and execute the setup stored procedures once to initialize the tables and views.
+   
+   **Note**: Schema.sql is readily available to run in the snowflake.
+   
+      -**Database**: TB_2_TS
+     
+      -**Schema**: TTTM_RAW
+   
+   Ensure the following structure is created:
+      
+      **Tables**:
+
+            MIGRATION_EXECUTION_HEADER
+            MIGRATION_EXECUTION_DETAIL
+            TWB_FILE
+            DATASOURCE_HEADER
+            DATASOURCE_DETAIL
+            WORKSHEET_HEADER
+            WORKSHEET_DETAIL
+            WORKSHEET_DATASOURCE_XREF
+            liveboard_HEADER
+            liveboard_DETAIL
+            TABLE_HEADER
+            TABLE_DETAIL
+            TABLE_OUTPUT_FILE
+            DATASOURCE_TABLE_XREF
+            DATASOURCE_COLUMN_XREF
+            WORKSHEET_HEADER2
+
+   **Stored Procedures**: You must run the following stored procedures to handle the migration logic and data population:
+   
+            MIGRATION_EXECUTION_HEADER
+            twb_file
+            Header_table
+            Detail_table
+            View_Model
+            POPULATE_WORKSHEET_HEADER2
+
+   **Data Model**: [View ERD](https://dbdiagram.io/d/Copy-of-Tab2TS_report_model-693aee69e877c630747cb0eb)
+
+
+
+
+
+
 
 ## Quick Start
 
@@ -229,26 +278,6 @@ The tool uses Snowflake for both:
 
 #### Database Structure
 
-**Database**: `TB_2_TS`
-**Schema**: `TTTM_RAW`
-
-#### Tables (15)
-- `MIGRATION_EXECUTION_HEADER`
-- `MIGRATION_EXECUTION_DETAIL`
-- `TWB_FILE`
-- `DATASOURCE_HEADER`
-- `DATASOURCE_DETAIL`
-- `WORKSHEET_HEADER`
-- `WORKSHEET_DETAIL`
-- `WORKSHEET_DATASOURCE_XREF`
-- `liveboard_HEADER`
-- `liveboard_DETAIL`
-- `TABLE_HEADER`
-- `TABLE_DETAIL`
-- `TABLE_OUTPUT_FILE`
-- `DATASOURCE_TABLE_XREF`
-- `DATASOURCE_COLUMN_XREF`
-
 #### Views (3)
 - `STG_WORKSHEET_NOT_IN_liveboard`
 - `STG_DATASOURCE_NOT_IN_WORKSHEET`
@@ -258,15 +287,17 @@ The tool uses Snowflake for both:
 
 1. **Data Extraction**: Tableau workbooks are parsed and metadata extracted
 2. **Raw Data Load**: Metadata ingested into `RAW_DATA_DUMP` table
-3. **Data Transformation**: Five SQL stored procedures transform and load data:
+3. **Data Transformation**: Six SQL stored procedures transform and load data:
    - `MIGRATION_EXECUTION_HEADER`
    - `twb_file`
    - `Header_table`
    - `Detail_table`
    - `View_Model`
+   - `POPULATE_WORKSHEET_HEADER2`
+      
 4. **Analytics Ready**: Data available for migration analysis liveboard
 
-**Data Model**: [View ERD](https://dbdiagram.io/d/Tab2TS_report_model-66a0f6fa8b4bb5230e3a2c1f)
+
 
 ## Migration Analysis Liveboard
 
@@ -280,7 +311,7 @@ The tool uses Snowflake for both:
 
 The tool uses a predefined staging environment:
 ```
-https://embed-1-do-not-delete.thoughtspotstaging.cloud/?param1=Execution_ID&paramVal1={execution_id}&#/pinboard/c215130d-a735-421f-bda6-dac81abd7044
+https://ps-internal.thoughtspot.cloud/?param1=Execution_ID&paramVal1={value}&#/pinboard/caf7e1f5-823a-41ce-9462-bfbd07bd7903
 ```
 **RUNTIME PARAMETER in OBJECT URL**: [DOCUMENTATION](https://developers.thoughtspot.com/docs/runtime-params)
 
@@ -299,7 +330,7 @@ https://embed-1-do-not-delete.thoughtspotstaging.cloud/?param1=Execution_ID&para
 | Feature Category | Live Connections | Extract Connections | Details |
 |------------------|------------------|-------------------|---------|
 | **Data Sources** | ✅ TML files | ✅ SQL files | Tables with join relationships |
-| **Custom SQL** | ✅ SQL View TML | ✅ Included in SQL | Custom query support |
+| **Custom SQL** | ✅ SQL View TML,Table TML for SQL Proxy | ✅ Included in SQL | Custom query support |
 | **Calculated Fields** | ✅ Model formulas | ✅ Model formulas | ANTLR-based conversion |
 | **Joins** | ✅ Model joins | ✅ SQL joins | Complete relationship support |
 | **Filters** | ✅ Model/Live filters | ✅ SQL WHERE clauses | Basic filtering capabilities |

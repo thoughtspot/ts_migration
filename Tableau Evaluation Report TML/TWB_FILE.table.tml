@@ -1,4 +1,4 @@
-guid: c9600e49-14b9-47c0-895f-401aadaa5518
+guid: 42bfba14-65a9-41fe-b80f-f914aecb661d
 table:
   name: TWB_FILE
   db: TB_2_TS
@@ -34,3 +34,6 @@ table:
       name: MIGRATION_EXECUTION_HEADER
     "on": "[TWB_FILE::EXEC_ID] = [MIGRATION_EXECUTION_HEADER::EXEC_ID]"
     type: INNER
+  properties:
+    spotter_config:
+      is_spotter_enabled: false

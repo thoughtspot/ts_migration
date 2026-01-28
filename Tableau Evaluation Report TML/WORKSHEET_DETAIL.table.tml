@@ -1,4 +1,4 @@
-guid: 031abc24-4b32-4355-b5c9-8f26a17111a1
+guid: 5977482c-9d85-4312-a5ae-c38b97d7e37a
 table:
   name: WORKSHEET_DETAIL
   db: TB_2_TS
@@ -67,3 +67,11 @@ table:
       name: DATASOURCE_HEADER
     "on": "[WORKSHEET_DETAIL::PROPERTY_TYPE] = [DATASOURCE_HEADER::DATASOURCE_HEADER_ID]"
     type: LEFT_OUTER
+  - name: WORKSHEET_HEADER2_to_WORKSHEET_DETAIL
+    destination:
+      name: WORKSHEET_HEADER2
+    "on": "[WORKSHEET_DETAIL::WORKSHEET_HEADER_ID] = [WORKSHEET_HEADER2::WORKSHEET_HEADER_ID]"
+    type: LEFT_OUTER
+  properties:
+    spotter_config:
+      is_spotter_enabled: false

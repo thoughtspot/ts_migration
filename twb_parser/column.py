@@ -17,21 +17,36 @@ class Column():
             get_logger().info(f'Column parsing started for {twb_name} file')
             data_dict = []
 
+            base_columns = ['object type', 'datasource name', 'parent-name', 'local-name', 'remote-name', 'local-type']
             for datasource in soup.find('datasources').find_all('datasource'):
+                ds_name = datasource.get('caption') or datasource.get('name')
+                connection = datasource.find('connection')
+                connection_class = connection.get('class') if connection else ''
+                connection_dbname = connection.get('dbname') if connection else ''
                 data = datasource.find('metadata-records')
+                if data is None:
+                    get_logger().warning(f'Metadata records missing for {ds_name}; skipping column extraction')
+                    continue
                 for record in data.find_all('metadata-record'):
                     if record['class'] == 'column':
+                        parent_name = record.find('parent-name').text.strip('[]')
+                        # added to make the table name for sql proxies their dbname 
+                        #sqlproxy-dbname
+                        if connection_class == 'sqlproxy' and parent_name.lower() == 'sqlproxy':
+                            parent_name = connection_dbname or ds_name
                         data_dict.append({
                             'object type': record['class'],
-                            'datasource name':datasource['caption'],
-                            'parent-name': record.find('parent-name').text.strip('[]'), # table name
+                            'datasource name':ds_name,
+                            'parent-name': parent_name, # table name
                             'local-name': record.find('local-name').text.strip('[]'), # local column name
                             'remote-name': record.find('remote-name').text.strip('[]'), # remote column name
                             'local-type': record.find('local-type').text,
                         })
-                get_logger().info(f'Processing column properties for {datasource["caption"]} datasource')
-
-            df_column = pd.DataFrame.from_dict(data_dict)
+                get_logger().info(f'Processing column properties for {ds_name} datasource')
+            if data_dict:
+                df_column = pd.DataFrame.from_dict(data_dict)
+            else:
+                df_column = pd.DataFrame(columns=base_columns)
             df_column.rename(columns = {'parent-name':'table name', 'remote-name' : 'remote column name',
                                                 'local-name':'local column name','local-type':'property value'}, inplace = True)
             df_column['property type'] = 'metadata-record'
@@ -69,7 +84,7 @@ class Column():
                 'supported in TS', 'supported in Migrator', 'exec_error_details'
             ])
 
-            return df_column
+        return df_column
 
     #Function to generate feasibility report for calculated_column
     def find_calculated(self, soup, twb_name):
@@ -78,10 +93,15 @@ class Column():
             formula_dict = {}
             data_dict = []
             for datasource in soup.find('datasources').find_all('datasource'):
+                ds_name= datasource.get('caption') or datasource.get('name')
                 data = datasource.find_all('column')
                 for col in data:
-                    if col.find ('calculation') is not None:
-                        # if caption is not present, then use name
+                    param_domain = (col.get('param-domain-type') or '').strip().lower()
+                    if param_domain in ('list', 'range'):
+                        # Skip Tableau parameters regardless of other attributes
+                        continue
+                    if col.find('calculation') is not None:
+                       
                         try:
                             name = col['caption']
                             # col['caption'] if col['caption'] is not None else col['name']
@@ -91,21 +111,24 @@ class Column():
                                 get_logger().info(f"KeyError: 'caption' key not found for column {col['name']}")
                             else:
                                 get_logger().error(f"KeyError: {e}")
+                        calc_tag = col.find('calculation')
+                        formula_text = calc_tag.get('formula')
                         formula_dict[col['name']] = name
-                        formula_twb, formula_tml = extract_formula(col.find('calculation')['formula'],formula_dict)
-                        data_dict.append(({
-                            'object type': 'column',
-                            'datasource name':datasource['caption'],
-                            'table name': '',
-                            'local column name': name,
-                            'property type': 'calculated_column',
-                            'property name': col['name'],
-                            'property value': '(' + formula_twb + ')',
-                            'conversion in TS': formula_tml,
-                            'supported in TS': str(is_supported_in_ts(formula_tml)),
-                            'supported in Migrator': str(is_supported_in_migrator(formula_tml))
-                        }))
-                get_logger().info(f'Processing calculated column properties for {datasource["caption"]} datasource')
+                        if formula_text:
+                            formula_twb, formula_tml = extract_formula(col.find('calculation')['formula'],formula_dict)
+                            data_dict.append(({
+                                'object type': 'column',
+                                'datasource name':ds_name,
+                                'table name': '',
+                                'local column name': name,
+                                'property type': 'calculated_column',
+                                'property name': col['name'],
+                                'property value': '(' + formula_twb + ')',
+                                'conversion in TS': formula_tml,
+                                'supported in TS': str(is_supported_in_ts(formula_tml)),
+                                'supported in Migrator': str(is_supported_in_migrator(formula_tml))
+                            }))
+                get_logger().info(f'Processing calculated column properties for {ds_name} datasource')
 
             df_calculated = pd.DataFrame.from_dict(data_dict)
             df_calculated['property type'] = 'calculated_column'

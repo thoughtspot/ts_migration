@@ -20,7 +20,15 @@ class TML_Generator:
         table_tml_directory = determine_tml_type(path=file_in_a_path)
         return table_tml_directory.load(path=file_in_a_path)
 
-    def generate_tml(self, data_df, custom_sql_df, table_map, output_path, connection_name):
+    def generate_tml(
+        self,
+        data_df,
+        custom_sql_df,
+        table_map,
+        output_path,
+        connection_name,
+        file_name_prefix="",
+    ):
         table_dict = {}
         view_dict = {}
         for table_name in data_df['Table Name'].unique():
@@ -32,9 +40,25 @@ class TML_Generator:
                 combined_path = self.check_and_create_folder(output_path, "Table TML")
                 table_full_name = table_map[table_name]
                 parts = table_full_name.split('.')
-                db = parts[0].strip('[]')
-                schema = parts[1].strip('[]')
-                tb_name = self.create_table_tml(table_name, data_df, db, schema, combined_path, connection_name)
+                if len(parts) >= 3:
+                    db = parts[0].strip('[]')
+                    schema = parts[1].strip('[]')
+                    db_table = parts[2].strip('[]')
+                #added logical case for sqlproxies
+                else:
+                    db = ''
+                    schema = ''
+                    db_table = table_full_name.strip('[]')
+                tb_name = self.create_table_tml(
+                    table_name,
+                    data_df,
+                    db,
+                    schema,
+                    combined_path,
+                    connection_name,
+                    db_table,
+                    file_name_prefix=file_name_prefix,
+                )
                 table_dict[table_name] = tb_name
         return table_dict, view_dict
     
@@ -44,7 +68,7 @@ class TML_Generator:
             os.makedirs(combined_path)
         return combined_path
      
-    def create_table_tml(self, table_name, data_df, db, schema, output_path, connection_name):
+    def create_table_tml(self, table_name, data_df, db, schema, output_path, connection_name, db_table_name=None, file_name_prefix=""):
 
         get_logger().info(f"Creating Table TML with the name of '{table_name}'")
 
@@ -52,7 +76,7 @@ class TML_Generator:
             tbtml = self.table_tml_template.to_dict()
             tbtml['table']['name'] = table_name
             tbtml['table']['description'] = ""
-            tbtml['table']['db_table'] = table_name
+            tbtml['table']['db_table'] = db_table_name or table_name
             tbtml['table']['db'] = db
             tbtml['table']['schema'] = schema
             tbtml['table']['connection']['name'] = connection_name
@@ -76,7 +100,7 @@ class TML_Generator:
             tbtml['table']['columns'] = columns
             # Dump the current table's TML into a file with a unique name
             table_object = Table.loads(json.dumps(tbtml))
-            output_file_name = output_path + "/" + table_name + ".table.tml"
+            output_file_name = output_path + "/" + file_name_prefix + table_name + ".table.tml"
             table_object.dump(output_file_name)
             tml_name = os.path.basename(output_file_name)
             get_logger().info(f"'{table_name}' creation completed")
