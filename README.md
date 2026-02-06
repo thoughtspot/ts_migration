@@ -76,7 +76,7 @@ The migration tool follows a three-tier architecture:
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/YOUR_USERNAME/ts_migration.git
+   git clone https://github.com/thoughtspot/ts_migration.git
    cd ts_migration
    ```
 
@@ -105,7 +105,7 @@ The migration tool follows a three-tier architecture:
 5. **Database Setup**
    Before running the migration tool, you must create the necessary schema in Snowflake and execute the setup stored procedures once to initialize the tables and views.
    
-   **Note**: Schema.sql is readily available to run in the snowflake.
+   **Note**: Schema.sql is readily available to run in the snowflake. This file contains all the definitions of Tables, Views.
    
       -**Database**: TB_2_TS
      
@@ -132,7 +132,7 @@ The migration tool follows a three-tier architecture:
             DATASOURCE_COLUMN_XREF
             WORKSHEET_HEADER2
 
-   **Stored Procedures**: You must run the following stored procedures to handle the migration logic and data population:
+   **Stored Procedures**: You must run the following stored procedures in snowflake ( available in `stored_procedures` folder) to handle the migration logic and data population:
    
             MIGRATION_EXECUTION_HEADER
             twb_file
@@ -303,8 +303,9 @@ The tool uses Snowflake for both:
 
 ### Setup Instructions
 
-1. **Configure Connection**: Set up connection between Snowflake and ThoughtSpot
-2. **Import TML Files**: Import all files from the `Tableau Evaluation Report TML` folder to your ThoughtSpot cluster
+1. **Configure Connection**: Set up connection between Snowflake and ThoughtSpot.
+**NOTE**: While creating a connection keep the name of the connection as `TTTM_MAIN_CONNECTION` and the `DB` name, `Schema` name should be same as mentioned in the Schema.sql file.
+2. **Import TML Files**: Import all files from the `Tableau Evaluation Report TML` folder to your ThoughtSpot cluster.
 3. **Access liveboard**: The tool provides a direct link to the staging liveboard after execution
 
 ### liveboard URL
@@ -313,6 +314,9 @@ The tool uses a predefined staging environment:
 ```
 https://ps-internal.thoughtspot.cloud/?param1=Execution_ID&paramVal1={value}&#/pinboard/caf7e1f5-823a-41ce-9462-bfbd07bd7903
 ```
+**NOTE**: User has to replace `https://ps-internal.thoughtspot.cloud` with their own cluster URL in the `main.py` file.
+
+
 **RUNTIME PARAMETER in OBJECT URL**: [DOCUMENTATION](https://developers.thoughtspot.com/docs/runtime-params)
 
 
