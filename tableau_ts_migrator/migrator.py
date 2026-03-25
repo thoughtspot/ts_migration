@@ -58,9 +58,12 @@ class Migrator:
                     ]
                     datasource_type = sliced_df_with_ds_name[
                         sliced_df_with_ds_name["property type"] == "ds_type"
-                    ]["property value"].tolist()[0]
+                    ]["proposed value"].tolist()[0]
 
-                    is_published_datasource = datasource_type == "Published Datasource"
+                    #is_published_datasource = datasource_type == "Published Datasource"
+                    is_published_datasource = sliced_df_with_ds_name[
+                        sliced_df_with_ds_name["property type"] == "ds_type"
+                    ]["property value"].tolist()[0] == "Published Datasource"
 
                     #Added for Converting published datasources to Live 
                     
@@ -73,7 +76,7 @@ class Migrator:
                     for cdw_type in sliced_df_with_ds_name[
                         sliced_df_with_ds_name["property type"] == "named_connection"
                     ]["property value"].tolist():
-                        if cdw_type != "snowflake":
+                        if cdw_type not in ["snowflake", "teradata"]:
                             raise ValueError(
                                 f"Migration not supported for {cdw_type}. Only supported for snowflake. Unable to process the datasource '{datasource}' which belongs to the file '{twb_file}'."
                             )
@@ -322,8 +325,8 @@ class Migrator:
                             custom_sql_df,
                             table_map,
                             output_path,
-                            # "dgprojectTS",
-                            "",
+                            "dgprojectTS",
+                            #"",
                             file_name_prefix="sqlproxy_" if is_published_datasource else "",
                         )
                         #utility inner function to add table rows for sqlproxy/published datasources that only had column metadata rows
@@ -539,7 +542,7 @@ class Migrator:
                             None,
                         )
                         model_mask = (parsed_dump["property type"] == "ds_type") & (
-                            parsed_dump["property value"] == "Extract"
+                            parsed_dump["proposed value"] == "Extract"
                         )
                         parsed_dump.loc[model_mask, "output_file_type"] = "SQL files"
 

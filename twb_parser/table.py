@@ -9,6 +9,13 @@ class Table():
         pass
     #added below private method so that for sql proxies we get dbname isntead of [sqlproxy]
     #change it sqlproxy-dbname 
+    def _get_qualified_table_name(self, relation):
+        """Return bracket-stripped fully qualified name (DB.SCHEMA.TABLE) when available, else the short name."""
+        table_attr = relation.get('table')
+        if table_attr:
+            return table_attr.replace('[', '').replace(']', '')
+        return relation.get('name')
+
     def _resolve_table_name(self, relation, connection_tag, fallback_name):
         table_name = relation.get('table') if relation else None
         if connection_tag:
@@ -56,7 +63,7 @@ class Table():
                                         data_dict.append({
                                             'object type': 'table',
                                             'datasource name': ds_name,
-                                            'table name': relation.get('name'),
+                                            'table name': self._get_qualified_table_name(relation),
                                             'conversion in TS': conversion,        
                                             'property type': 'connection tag',
                                             'property name': '',
@@ -94,7 +101,7 @@ class Table():
                                     data_dict.append({
                                         'object type': 'table',
                                         'datasource name': ds_name,
-                                        'table name': relation.get('name'),                    
+                                        'table name': self._get_qualified_table_name(relation),                    
                                         'conversion in TS': conversion,
                                         'property type': 'connection tag',
                                         'property name': '',
@@ -168,7 +175,7 @@ class Table():
                                             data_dict.append({
                                                 'object type': 'table',
                                                 'datasource name': ds_name,
-                                                'table name': relation.get('name'),
+                                                'table name': self._get_qualified_table_name(relation),
                                                 'conversion in TS': conversion,           
                                                 'property type': 'connection tag',
                                                 'property name': '',
@@ -203,7 +210,7 @@ class Table():
                                     data_dict.append({
                                         'object type': 'table',
                                         'datasource name': ds_name,
-                                        'table name': relation.get('name'),                    
+                                        'table name': self._get_qualified_table_name(relation),                    
                                         'conversion in TS': conversion,
                                         'property type': 'connection tag',
                                         'property name': '',
@@ -247,7 +254,48 @@ class Table():
                                             'property name': '',
                                             'property value': connection_tag,  
                                         })
- 
+                     # ---- NEW FALLBACK: No ObjectModelEncapsulateLegacy wrappers ----
+                    # Handles TWBs where <relation> sits directly under <connection class='federated'>
+                    # e.g. Branch Operational Risk Dashboard.twb
+                    elif datasource.find('named-connections'):
+                        federated_conn = datasource.find('connection', class_='federated')
+                        if federated_conn:
+                            direct_relation = federated_conn.find('relation', recursive=False)
+                            if direct_relation:
+                                for nc in datasource.find('named-connections').find_all('named-connection'):
+                                    connection_tag = nc.find('connection')
+
+                                    if direct_relation.get('table'):
+                                        data_dict.append({
+                                            'object type': 'table',
+                                            'datasource name': ds_name,
+                                            'table name': self._get_qualified_table_name(direct_relation),
+                                            'conversion in TS': conversion,
+                                            'property type': 'connection tag',
+                                            'property name': '',
+                                            'property value': connection_tag,
+                                        })
+                                    elif direct_relation.get('type') == 'text':
+                                        data_dict.append({
+                                            'object type': 'custom sql query',
+                                            'datasource name': ds_name,
+                                            'table name': direct_relation.get('name'),
+                                            'property type': 'text',
+                                            'property name': 'query',
+                                            'property value': direct_relation.text,
+                                            'conversion in TS': conversion,
+                                        })
+                                        relation_connection = direct_relation.get('connection')
+                                        if nc.get('name') == relation_connection:
+                                            data_dict.append({
+                                                'object type': 'custom sql query',
+                                                'datasource name': ds_name,
+                                                'table name': direct_relation.get('name'),
+                                                'property type': 'connection tag',
+                                                'property name': '',
+                                                'property value': connection_tag,
+                                            })
+                    # ---- END NEW FALLBACK ----
 
             df_table = pd.DataFrame.from_dict(data_dict)
 

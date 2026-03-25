@@ -172,7 +172,7 @@ python main.py [operation] input_folder output_folder [--live_flag]
 
 **Arguments:**
 - `operation` (optional): `feasibility` or `convert` (default: `convert`)
-- `input_folder`: Directory containing Tableau (.twb) files
+- `input_folder`: Directory containing Tableau (.twb or .twbx) files
 - `output_folder`: Directory for generated output files
 - `--live_flag`: Force live connections for extract-based Tableau workbooks
 
@@ -232,6 +232,8 @@ output_folder/
 
 **Generated Files:**
 - **SQL Files**: Query files for use with Mode or similar tools (***These files (.sql) can be imported in Analyst Studio and can be published as a dataset in Thoughtspot cluster***)
+
+**NOTE**: Currently Snowflake SQL is completely supported and limited support for Teradata.
 - **Model TMLs**: Data model configurations for the extracted data
 
 ### Connection Override
@@ -304,6 +306,7 @@ The tool uses Snowflake for both:
 ### Setup Instructions
 
 1. **Configure Connection**: Set up connection between Snowflake and ThoughtSpot.
+
 **NOTE**: While creating a connection keep the name of the connection as `TTTM_MAIN_CONNECTION` and the `DB` name, `Schema` name should be same as mentioned in the Schema.sql file.
 2. **Import TML Files**: Import all files from the `Tableau Evaluation Report TML` folder to your ThoughtSpot cluster.
 3. **Access liveboard**: The tool provides a direct link to the staging liveboard after execution

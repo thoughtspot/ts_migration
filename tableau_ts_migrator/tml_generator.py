@@ -74,6 +74,7 @@ class TML_Generator:
 
         try :
             tbtml = self.table_tml_template.to_dict()
+            tbtml['guid'] = ' '
             tbtml['table']['name'] = table_name
             tbtml['table']['description'] = ""
             tbtml['table']['db_table'] = db_table_name or table_name
